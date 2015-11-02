@@ -12,6 +12,7 @@ import subprocess
 import Image, ImageDraw
 import time
 import serial
+# from EpsImagePlugin import split
 # import serial.tools.list_ports as tls
 
 #import psutil
@@ -32,25 +33,33 @@ timeout = time.time() + 10
 
 ser.setTimeout(2)
 ser.flushInput()
-im = Image.open("Untitled.png")
+im = Image.open("Untitled.bmp")
 print im.format, im.size, im.mode
 # im.show()
 draw = ImageDraw.Draw(im)
-draw.point((0,0), 0xFF)
+for x in range(10, 630):
+    for y in range(10, 470):
+        draw.point((x,y), 0xFFFFFF)
+    
+im.save('Untitled.bmp', "bmp")
 
-   # write to stdout
-im.save('Untitled.png', "png")
-draw.point((10,5), 0xFF)
-im.save('Untitled.png', "png")
-# im.show()
+
 i = 0
 while True:
     if time.time() > timeout:
         break
-    i = i+1
-    print ser.readline(),  # wait for start transmision
-    draw.point((10,i), 0xFF)
-    im.save('Untitled.png', "png")
-
+    receivedLine = ser.readline().split(' ')  # wait for start transmision
+    if receivedLine[0] == "X":
+        print "X = " + receivedLine[2] + "    Y = " + receivedLine[7]
+        x_point = receivedLine[2]
+        y_point = receivedLine[7]
+        x_point = x_point.strip().split('\x00')[0]
+        x_ = int(x_point)
+        y_point = y_point.strip().split('\x00')[0]
+        y_ = int(y_point)
+        y_ = 480 - y_
+        draw.point((x_,y_), 0xFF)
+        im.save('Untitled.bmp', "bmp")
 del draw
 ser.close() # close port
+print "closed"
