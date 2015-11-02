@@ -27,9 +27,7 @@ print ser
 ser.setTimeout(2)
 print ser.getTimeout()
 
-
-
-timeout = time.time() + 1
+timeout = time.time() + 30
 
 ser.setTimeout(2)
 ser.flushInput()

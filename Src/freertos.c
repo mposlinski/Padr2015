@@ -149,7 +149,7 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
 	BSP_LED_Toggle(LED4);
-    osDelay(50);
+    osDelay(10);
 
     HAL_SPI_TransmitReceive(&hspi3,(uint8_t*)aTxBufferY, (uint8_t *)aRxBufferY, 3, 500);
     HAL_SPI_TransmitReceive(&hspi3,(uint8_t*)aTxBufferX, (uint8_t *)aRxBufferX, 3, 500);
@@ -198,7 +198,7 @@ void StartDefaultTask(void const * argument)
             CDC_Transmit_FS( Ystring,  sizeOf_string );
             HAL_Delay(1);
             CDC_Transmit_FS( NewLine, sizeOf_NewLine );
-            HAL_Delay(100);
+            HAL_Delay(10);
             BSP_LED_Toggle(LED5);
             X_640_old = X_640;
             Y_480_old = Y_480;
